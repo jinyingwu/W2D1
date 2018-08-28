@@ -40,8 +40,6 @@ class Cursor
   end
 
   def get_input
-    puts "get input here"
-    byebug
     key = KEYMAP[read_char]
     handle_key(key)
   end
@@ -78,12 +76,10 @@ class Cursor
   end
 
   def handle_key(key)
-    puts "key:#{key}"
     case key
     when :return , :space 
       @cursor_pos
     when :left , :right , :up , :down
-      puts "Got here"
       update_pos(MOVES[key])
       nil
     when :ctrl_c
@@ -93,7 +89,6 @@ class Cursor
 
   def update_pos(diff)
     new_pos = [cursor_pos.first + diff.first, cursor_pos.last + diff.last]
-    p @board.valid_pos?(new_pos)
     @cursor_pos = new_pos if @board.valid_pos?(new_pos)
       
   end

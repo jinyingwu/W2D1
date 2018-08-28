@@ -14,13 +14,17 @@ class Display
     
     @board.grid.each_with_index do |row, idx|
       row.each_index do |jdx|
-        if [idx,jdx] == @cursor.cursor_pos
-          print "Y"
+        pos = [idx,jdx]
+        if pos == @cursor.cursor_pos
+          print "#{@board[pos].value}".colorize(:color =>:red, :background => :black)
+          
         else
-          print "X"
+          print "#{@board[pos].value}".colorize(:color =>:yellow, :background => :black)
         end
       end
       print "\n"
     end
+    
+    @board
   end
 end
