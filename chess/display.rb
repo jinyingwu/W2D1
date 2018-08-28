@@ -16,10 +16,10 @@ class Display
       row.each_index do |jdx|
         pos = [idx,jdx]
         if pos == @cursor.cursor_pos
-          print "#{@board[pos].value}".colorize(:color =>:red, :background => :black)
+          print "#{@board[pos].symbol}".colorize(:color =>:red, :background => :black)
           
         else
-          print "#{@board[pos].value}".colorize(:color =>:yellow, :background => :black)
+          print "#{@board[pos].symbol}".colorize(:color =>:yellow, :background => :black)
         end
       end
       print "\n"

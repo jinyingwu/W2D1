@@ -1,7 +1,17 @@
 require_relative "piece"
+require_relative "bishop"
+require_relative "king"
+require_relative "queen"
+require_relative "rook"
+require_relative "pawn"
+require_relative "knight"
 
 class Board
   attr_accessor :grid
+  
+  BACKLINE = [:rook, :knight, :bishop, :queen, :king, :bishop, :knight, :rook]
+  CLASSMAP = {rook:Rook, knight:Knight, bishop:Bishop, queen:Queen, king:King}
+  
   def initialize(size = 8)
     null_piece = NullPiece.instance
     @grid = Array.new(size) { Array.new(size){null_piece}}
@@ -20,13 +30,25 @@ class Board
   
   def fill_grid
     @grid.each_with_index do |row, idx|
-      if idx == 0 || idx == 1
-        row.each_index {|jdx| row[jdx] = Piece.new([idx, jdx], self, :black)}
-      elsif idx == 6 || idx == 7
-        row.each_index {|jdx| row[jdx] = Piece.new([idx, jdx], self, :white)}
-      end
+      case idx 
+      when 0
+        row = fill_back_line(:black, idx)
+      when 1
+        row = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :black)}
+      when 6
+        row = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :white)}
+      when 7
+        row = fill_back_line(:white, idx)
+      end 
     end 
   end
+
+  
+  def fill_back_line(color, row_index)
+    BACKLINE.each_with_index.reduce([]) do |back, (el, idx)|
+      back << CLASSMAP[el].new([row_index, idx], self, color)
+    end 
+  end 
   
   def move_piece(start_pos, end_pos)
     x,y = start_pos
