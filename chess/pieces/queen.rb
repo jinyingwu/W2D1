@@ -9,4 +9,8 @@ class Queen < Piece
     @symbol = :queen
   end
   
+  def move_dirs
+    diagonal_dir + horizontal_dir
+  end  
+  
 end
