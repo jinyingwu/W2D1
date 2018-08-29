@@ -1,8 +1,11 @@
 require 'singleton'
-require_relative "board"
+# require_relative "board"
 
 class Piece
   attr_accessor :pos, :color
+  
+  WHITE_PIECEMAP = {rook:"♖", knight:"♘", bishop:"♗", queen:"♕", king:"♔", pawn:'♙'}
+  BLACK_PIECEMAP = {rook:"♜", knight:"♞", bishop:"♝", queen:'♛', king:'♚', pawn:"♟"}
   
   def initialize(pos, board, color)
     @pos = pos
@@ -11,7 +14,7 @@ class Piece
   end
   
   def to_s
-    "Piece: #{symbol}, Pos: #{@pos}, Color: #{@color}"
+     @color == :white ? WHITE_PIECEMAP[@symbol] : BLACK_PIECEMAP[@symbol]
   end
   
   def empty?
@@ -47,6 +50,10 @@ class NullPiece < Piece
     @color = :gray
     @symbol = :null
   end
+  
+  def to_s
+    "X"
+  end 
   
   def inspect
   end

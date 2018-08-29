@@ -6,7 +6,7 @@ class Knight < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :Knight
+    @symbol = :knight
   end
   
 end

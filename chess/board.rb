@@ -1,10 +1,10 @@
-require_relative "piece"
-require_relative "bishop"
-require_relative "king"
-require_relative "queen"
-require_relative "rook"
-require_relative "pawn"
-require_relative "knight"
+require_relative "pieces/piece"
+require_relative "pieces/bishop"
+require_relative "pieces/king"
+require_relative "pieces/queen"
+require_relative "pieces/rook"
+require_relative "pieces/pawn"
+require_relative "pieces/knight"
 
 class Board
   attr_accessor :grid
@@ -32,13 +32,13 @@ class Board
     @grid.each_with_index do |row, idx|
       case idx 
       when 0
-        row = fill_back_line(:black, idx)
+        @grid[idx] = fill_back_line(:black, idx)
       when 1
-        row = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :black)}
+        @grid[idx] = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :black)}
       when 6
-        row = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :white)}
+        @grid[idx] = (0..7).reduce([]) {|acc, jdx| acc << Pawn.new([idx, jdx], self, :white)}
       when 7
-        row = fill_back_line(:white, idx)
+        @grid[idx] = fill_back_line(:white, idx)
       end 
     end 
   end
@@ -77,6 +77,28 @@ class Board
     true
   end 
   
+  def check_mate?(color)
+    king = @grid.select { |el| el.color != color && el.symbol == :king}
+    
+    if in_check?
+      true if king.valid_moves.empty?
+    else 
+      false
+    end  
+  end 
+  
+  def in_check?(color)
+    king_pos = @grid.select { |el| el.color != color && el.symbol == :king}.pos
+    
+    check = false
+    @grid.each do |el| 
+      el.each do |el2| 
+        check = true if el2.color == color && el2.valid_moves.include?(king_pos)
+      end 
+    end 
+    
+    check
+  end
 end 
 
 # b = Board.new

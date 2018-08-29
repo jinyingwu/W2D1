@@ -5,8 +5,7 @@ class Pawn < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :Pawn
-    @first_move = true
+    @symbol = :pawn
   end
   
   def moves
@@ -17,10 +16,7 @@ class Pawn < Piece
     result << new_pos if move_into_check?(new_pos) && @board[new_pos].class == NullPiece
     
     new_pos = [@pos[0] + diffs[1][0],@pos[1] + diffs[1][1]]
-    if @first_move && @board[new_pos].class == NullPiece
-      result << new_pos 
-      @first_move = false
-    end
+    result << new_pos if first_move? && @board[new_pos].class == NullPiece
     
     diffs[2..-1].each do |diff|
       new_pos = [@pos[0] + diff[0],@pos[1] + diff[1]]
@@ -31,6 +27,19 @@ class Pawn < Piece
     
     result
   end 
+  
+  def first_move?
+    if @color == :black
+      @pos[0] == 1 ? true : false
+    else
+      @pos[0] == 6 ? true : false
+    end
+  end
+  
+  # def base_move
+  #   new_pos = [@pos[0] + diffs[0][0],@pos[1] + diffs[0][1]]
+  #   result << new_pos if move_into_check?(new_pos) && @board[new_pos].class == NullPiece
+  # end
   
   private 
   BLACK_DIFFS = [[1, 0], [2, 0], [1, -1], [1, 1]]

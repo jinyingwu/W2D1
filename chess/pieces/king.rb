@@ -6,7 +6,7 @@ class King < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :King
+    @symbol = :king
   end
   
 end

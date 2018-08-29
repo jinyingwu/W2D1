@@ -6,7 +6,7 @@ class Queen < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :Queen
+    @symbol = :queen
   end
   
 end

@@ -6,7 +6,7 @@ class Bishop < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :Bishop
+    @symbol = :bishop
   end
   
 end

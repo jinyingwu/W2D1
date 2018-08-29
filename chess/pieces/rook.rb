@@ -6,7 +6,7 @@ class Rook < Piece
   
   def initialize(pos, board, color)
     super
-    @symbol = :Rook
+    @symbol = :rook
   end
   
 end
